@@ -81,11 +81,11 @@ A few habits carry most of the voice. Use them where they do work, and skip them
 
 **Land a long passage with a short sentence.** After a dense paragraph, one short line closes it: *that is a real trade-off.* · *the accounting is done.* · *so the scheme stops there.* A long explanation that ends in another long sentence leaves the reader unsure what to keep. Use it where the passage has earned a landing; a short line after every paragraph turns into a drumbeat.
 
-**Match the sentence to what you know.** Facts get flat declaratives. Inferences get conditions (*if the QP is shared, this serialises*). Opinions get first person (*I would cite this number with care*). This is the voice side of the evidence labels: the reader should hear the difference between *the source says*, *it follows that*, and *I think* without looking for a tag.
+**Match the sentence to what you know.** Facts get flat declaratives. Inferences get conditions (*if the QP is shared, this serialises*). Judgments get a stance of their own, stated plainly (*this number deserves care before anyone cites it*). This is the voice side of the evidence labels: the reader should hear the difference between *the source says*, *it follows that*, and *this is a judgment* without looking for a tag.
 
 **Refuse to inflate.** Replace "significantly better" with the number and where it came from. Replace "robust" with what breaks and what does not. When something is missing, name the missing piece rather than the mood — *the paper gives one sentence and two citations here*, not *there may be some limitations*. And use ordinary words: say what a technical statement means in practice, then name the category.
 
-**Own your judgments, and keep them rare enough to mean something.** *This is the part I would not quote casually.* *This chapter is the most technically dense one.* A reader can argue with a judgment; they cannot argue with a claim blurred into neutrality. A judgment in every paragraph, though, is just noise.
+**Own your judgments, and keep them rare enough to mean something.** *This is the part that does not survive a casual quote.* *This chapter is the most technically dense one.* A reader can argue with a judgment; they cannot argue with a claim blurred into neutrality. A judgment in every paragraph, though, is just noise.
 
 **Hand off, don't summarise.** End a section by pointing at what it set up for the next one. Restating a conclusion proves nothing; a reader who knows what comes next has a reason to keep going.
 
