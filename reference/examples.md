@@ -1,27 +1,94 @@
-# Worked examples
+# 样例
 
-Referenced from `SKILL.md`. Two full examples of the intended pacing.
+## 1. 骨架轮：丢掉定义式开头
 
-## 1. Replacing a definition-first opening
+原来的写法是 `__threadfence() establishes device-scope ordering...`。
+精炼后的骨架轮：
 
-Suppose the opening line is `__threadfence()` establishes device-scope ordering but is not a barrier. That is accurate, and it does not help a reader who does not yet have the picture. A better way in:
+> 这件事里总共三块：① 一个线程写，② 另一个线程读，③ 把前两件事排上序的那个东西。
+>
+> 写的时候先把数据放进内存，读的时候从内存里拿；③ 决定了读出来的到底是旧数据还是新数据。在这三块之外，经常有一个东西被混进来——让线程停下来互相等待。那是另一回事，我们先不管它。
+>
+> | 概念 | 一句话 |
+> | --- | --- |
+> | 写 / 读 | 一个线程把值放进内存 / 另一个线程把值取出来 |
+> | 排序 | 让一组内存操作的先后顺序对别人成立 |
+> | 屏障 | 让线程之间互相停下来等彼此 |
+>
+> 骨架到此。说继续，我讲 ③，顺带说清它和屏障怎么分。
 
-> A fence puts an order on one thread's memory operations: at the scope it names, that thread's earlier writes become visible before its later ones. It works inside a single thread's instruction stream. Bringing threads together is a different job, and that one belongs to a barrier. In CUDA, `__threadfence()` is a device-scope ordering primitive: it orders one thread's memory operations, and it says nothing about where any other thread has reached.
+---
 
-The rewrite leads with what a fence does, and mentions the barrier once, at the point where the confusion actually lives.
+## 2. 推进轮：代号延后
 
-Treat all of this as a guide to pacing; change the vocabulary, the detail, and the examples to fit the actual question.
+骨架只给概念表：
 
-## 2. A term card, then a number that argues against itself
+> 一次查询的链路分五块：① 请求、② 缓存、③ 向量库、④ 重排、⑤ 结果集。
+>
+> 顺序是：请求 → 缓存 →（没命中）向量库 → 重排 → 结果集。
+>
+> 骨架到此。说继续，我们从重排开始。
 
-> **HOL blocking** — a first-in-first-out queue, so a large item at the head keeps a small urgent item behind it from leaving.
-> **Why it is a problem here** — bulk data and tiny control messages share one queue, and a FIFO cannot tell which one is urgent.
-> **What it is confused with** — congestion and packet loss. The network can be completely uncongested and this still happens, because the two flows share a queue.
+讲“重排”时，绝不出任何类名：
 
-Then, instead of listing the result, stop on it:
+> **重排**
+>
+> 向量库给的候选又快又粗；重排用更贵的算法把这几十条重新排序。它只处理这几十条，成本压得住。
+>
+> 它存在是因为便宜的那一步必须一次捞出很多条才能保证召回，而捞出来的这堆东西顺序不可信。
+>
+> 向量库交出一批粗筛候选，重排交回同样数量但顺序洗过的新候选，最后取前几条。
+>
+> 这块闭合了。下一块讲缓存为什么绕不过这一步。
 
-> Caching cut the number of embeddings sent over the network by 55%, yet lookup latency fell only 4.9%.
+代号留在最后：
 
-Don't doubt the measurement first; ask which path the optimisation touches. Latency is set by the slowest leg of each lookup. Removing 55% of the vectors leaves the other 45% still crossing the network and still waited on. The volume moved; the critical path barely did.
+> 代码里它们长这样：
+>
+> | 概念 | 代号 |
+> | --- | --- |
+> | 缓存 | `EmbeddingCache.get` |
+> | 向量库 | `VectorStore.query` |
+> | 重排 | `Reranker.rank` |
+> | 结果集 | `SearchResult[]` |
+>
+> 概念版连起来说，叙述里不该出现代号。反面写法长这样：
+>
+> `EmbeddingCache.get()` 没命中就去调 `VectorStore.query()`，再经 `Reranker.rank()` 返回 `SearchResult[]`。
 
-That pairing — card, then a number that resists the obvious reading — is the pattern to reproduce. The aim is a model that survives contact with the next surprising number.
+---
+
+## 3. 长文档的骨架轮
+
+> 这篇论文其实只在解决一件事：缓存把网络传输量砍了一半多，为什么端到端延迟几乎没动。
+>
+> 全文拆成四块：① 现象、② 归因、③ 机制、④ 证据。建议按 ① → ③ → ② → ④ 读：先看现象，再看他们提出的机制，然后才看得懂归因；证据留到最后评。
+>
+> | 概念 | 一句话 |
+> | --- | --- |
+> | 传输量 | 一次查询在网络上搬了多少字节 |
+> | 关键路径 | 一次查询里必须串着等完的那几段 |
+> | 命中率 | 请求里不用回源的比例 |
+>
+> ① 里有一个数字值得先记住：传输量掉了 55%，延迟只掉了 4.9%。
+> 说继续我从 ① 开始，那里正好解释这两个数为什么能同时成立。
+
+---
+
+## 4. 术语卡片与反直觉数字
+
+> **HOL 阻塞**
+>
+> 先进先出队列里，队头塞了一件大货，把后面的急件全堵住了。
+>
+> 为什么成问题：批量数据和控制消息共用一条队列，分不清谁急。
+>
+> 容易和什么混：拥塞和丢包。网络完全空闲时它照样发生。
+
+接着停在一个数字上：
+
+> 缓存把走上网络的向量数砍了 55%，但查询延迟只降了 4.9%。
+>
+> 先别怀疑测量。延迟由最慢的那条腿决定。少掉 55% 的向量，剩下的 45% 照样要过网络、照样在终点被串行等着。
+>
+> 量是动了，但关键路径没动。

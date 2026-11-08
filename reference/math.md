@@ -1,12 +1,54 @@
-# Math and notation
+# 公式与符号规范
 
-Referenced from `SKILL.md`. Read this when the answer will contain formulas.
+> 使用原则：仅在符号表达比文字描述更清晰时才使用公式。如果文字已经能够流畅阐述，则无需引入公式。所有数学公式均使用兼容 MathJax 的 LaTeX 语法编写，以确保在 Markdown 渲染器中正常显示。
 
-Use math when a relation or quantity is clearer as symbols than as a sentence. If the prose already says it well, skip the math. Write math in MathJax-compatible LaTeX so it renders in any Markdown-plus-MathJax viewer.
+---
 
-- **Inline or display.** Use `$...$` for a short symbol inside a sentence, such as latency $L$. Use `$$...$$` for an equation that carries the argument of the paragraph and deserves its own line. Prefer these over `\(...\)` and `\[...\]`.
-- **Name the symbol in words first.** The first time a quantity appears, say what it is ("call the latency $L$"), then keep using $L$. Use one symbol per concept. Switching to a synonym makes the reader lose track.
-- **Let the words carry the meaning.** A display equation restates the idea precisely. It should not replace the explanation. A reader should be able to follow the surrounding sentences without decoding the formula first. Say in words what each side means and why this step follows.
-- **Keep equations easy to spot.** Put an equation on its own line only if the answer refers back to it. Number it, like `(1)`, only when the text cites it. A one-off expression usually fits better inline.
-- **Think about the renderer.** If the viewer might not render math, it will show raw LaTeX. In that case keep the plain-text form short and conventional, and say which notation you are using when it matters. Escape a literal dollar sign, or put it in backticks, so it is not read as the start of a formula.
-- **Don't use a formula to skip a step.** When the derivation matters, explain the reasoning in words, and let the formula state the final result exactly.
+## 1. 行内与独立成行
+
+* 行内公式：使用 `$ ... $` 呈现嵌入段落中的简短符号（例如：延迟时间 $T_{latency}$）。
+* 独立成行：使用 `$$ ... $$` 呈现段落的核心推导公式，使其独占一行。
+* 语法规范：优先使用 `$ ... $` 和 `$$ ... $$`，避免使用 `\( ... \)` 和 `\[ ... \]`。
+
+---
+
+## 2. 概念计数与控制
+
+* 符号即概念：同一轮对话中，每一个新引入的数学符号均计入“新概念”额度（单轮最多 4~7 个）。
+* 严格限量：一个模块内新引入的数学符号切勿超过 1~2 个，防止增加读者的认知负荷。
+
+---
+
+## 3. 命名与一致性
+
+* 先文后码：首次出现某物理量或变量时，必须先用文字说明含义（例如：“假设系统延迟时间为 $T$”），随后再统一使用该符号 $T$。
+* 一名一物：同一概念在全文中仅对应一个固定符号，切勿中途更换同义符号，以免造成读者混淆。
+
+---
+
+## 4. 文字承载语义
+
+* 公式为辅，文字为主：独立公式的作用是对主线逻辑进行精确补充，绝不能替代文字解释。
+* 可读性保障：即使读者暂时跳过公式，也应当能够顺畅读懂上下文段落。
+* 等式解析：在公式下方，必须用文字明确说明等式左右两边的含义以及该步推导的具体逻辑。
+
+---
+
+## 5. 格式与引用
+
+* 独立成行时机：仅在后文需要多次引用该公式时，才将其独立成行。
+* 公式编号：仅在正文中存在明确引用（如“见公式 (1)”）时才对公式进行编号。对于一次性的计算表达式，直接嵌入行内即可。
+
+---
+
+## 6. 渲染与兼容性
+
+* 原始文本可读性：考虑到部分 Markdown 渲染器可能无法正确解析 LaTeX，需确保未渲染时的纯文本源码依然短小、规范、易读。
+* 符号转义：正文中若出现真实的美元符号（$），请进行转义处理（`\$`）或使用代码块包裹（``$``），避免被误识别为公式开头。
+
+---
+
+## 7. 步骤严密性
+
+* 严禁跳步：不得直接抛出一个复杂公式来替代中间推导过程。
+* 逻辑递进：涉及公式推导时，先在段落中用普通话把推理逻辑讲透，最后再给出精确的结论公式。
