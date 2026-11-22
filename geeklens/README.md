@@ -80,6 +80,12 @@ Copy-Item -Recurse . "$env:USERPROFILE\.config\opencode\skills\geeklens"
 Copy-Item -Recurse . "$env:USERPROFILE\.claude\skills\geeklens"
 ```
 
+或用 Skills CLI 只装这一个（`skillcrate` 仓）：
+
+```bash
+npx skills add wurenrumian/skillcrate --skill geeklens --global --yes
+```
+
 ## 目录内容
 
 - `SKILL.md` — skill 本体。

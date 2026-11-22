@@ -10,14 +10,15 @@ installed rather than on an assumed toolchain.
 
 ## Status
 
-Published from this repository and installed as a global `npx skills` skill:
+Published from the `skillcrate` monorepo and installed as a global `npx skills` skill:
 
 ```bash
-npx skills add wurenrumian/file-conversion-toolkit --global --skill file-conversion-toolkit --yes
+npx skills add wurenrumian/skillcrate --global --skill file-conversion-toolkit --yes
 ```
 
 It is also declared in the dotfiles manifest (`dot_config/agent-skills/skills.json`),
-whose install script performs that `npx skills add` on each host. Installed copies
+whose install script performs that `npx skills add` on each host — the manifest entry
+must name the `skillcrate` repo. Installed copies
 under the agent skill directories are **derived** — change `SKILL.md` here, push,
 then re-run the install script (or `npx skills update -g -y`) so the copies follow.
 

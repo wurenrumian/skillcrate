@@ -63,6 +63,12 @@
 Copy-Item -Recurse . "$env:USERPROFILE\.config\opencode\skills\host-memory"
 ```
 
+或用 Skills CLI 只装这一个（`skillcrate` 仓）：
+
+```bash
+npx skills add wurenrumian/skillcrate --skill host-memory --global --yes
+```
+
 ## 目录内容
 
 - `SKILL.md` — skill 本体。

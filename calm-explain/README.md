@@ -69,10 +69,10 @@ Copy-Item -Recurse . "$env:USERPROFILE\.config\opencode\skills\calm-explain"
 Copy-Item -Recurse . "$env:USERPROFILE\.claude\skills\calm-explain"
 ```
 
-Or with the Skills CLI:
+Or with the Skills CLI (installs just this skill from the `skillcrate` monorepo):
 
 ```bash
-npx skills add wurenrumian/calm-explain
+npx skills add wurenrumian/skillcrate --skill calm-explain --global --yes
 ```
 
 ## Contents
