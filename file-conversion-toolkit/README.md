@@ -1,58 +1,40 @@
 # file-conversion-toolkit
 
-A local file-conversion **routing skill**: a document-first decision guide that
-routes a conversion task to the correct tool on the host it is running on, with
-capability limits and known traps.
+本地文件转换的**路由 skill**：一个文档优先的决策指南，把转换任务按"当前主机实际装了什么"路由到正确的工具，并写明能力边界与已知陷阱。
 
-`SKILL.md` is the skill itself. It is host-aware: §0 probes the machine, §1
-records what the fleet had when last probed, and §2 routes on what is actually
-installed rather than on an assumed toolchain.
+`SKILL.md` 是 skill 本体。它是主机感知的：§0 探测机器，§1 记录上次探测时各机的现状，§2 按实际安装的工具选路，而不是按假设的工具链。
 
-## Status
+## 状态
 
-Published from the `skillcrate` monorepo and installed as a global `npx skills` skill:
+发布自 `skillcrate` 仓，作为全局 `npx skills` skill 安装：
 
 ```bash
 npx skills add wurenrumian/skillcrate --global --skill file-conversion-toolkit --yes
 ```
 
-It is also declared in the dotfiles manifest (`dot_config/agent-skills/skills.json`),
-whose install script performs that `npx skills add` on each host — the manifest entry
-must name the `skillcrate` repo. Installed copies
-under the agent skill directories are **derived** — change `SKILL.md` here, push,
-then re-run the install script (or `npx skills update -g -y`) so the copies follow.
+它同时登记在 dotfiles 清单（`dot_config/agent-skills/skills.json`）里，其安装脚本会在每台主机上执行这条 `npx skills add` —— 清单项必须指向 `skillcrate` 仓。各 agent 技能目录下的已装副本是**派生**的：改这里的 `SKILL.md`、push，然后重跑安装脚本（或 `npx skills update -g -y`）让副本跟上。
 
-## What it covers
+## 覆盖范围
 
-Documents are the primary focus.
+文档是主体。
 
-| Tool | Role |
+| 工具 | 作用 |
 | --- | --- |
-| Pandoc | document format ↔ format (md, docx, html, epub, odt, rst, latex, pptx) |
-| LibreOffice | Office fidelity and batch → PDF |
-| MarkItDown | anything → Markdown; audio → transcript |
-| Typst | Pandoc's PDF engine on Windows (no LaTeX there) |
-| poppler (`pdftotext`, `pdftoppm`) | PDF → text, PDF → page images on Linux |
-| Ghostscript | PDF text/raster fallback on Linux |
-| Python (PyMuPDF / pdfplumber / pypdf) | PDF → text, tables, images; merge/split (Windows) |
-| ImageMagick | images (secondary) |
-| FFmpeg | audio/video (secondary), MarkItDown audio, HyperFrames rendering |
+| Pandoc | 文档格式互转（md、docx、html、epub、odt、rst、latex、pptx） |
+| LibreOffice | Office 保真与批量 → PDF |
+| MarkItDown | 万物 → Markdown；音频 → 转写 |
+| Typst | Windows 上 Pandoc 的 PDF 引擎（那边没有 LaTeX） |
+| poppler（`pdftotext`、`pdftoppm`） | Linux 上 PDF → 文本、PDF → 页图 |
+| Ghostscript | Linux 上 PDF 取文本 / 栅格化的兜底 |
+| Python（PyMuPDF / pdfplumber / pypdf） | PDF → 文本、表格、图片；合并 / 拆分（Windows） |
+| ImageMagick | 图片（次要） |
+| FFmpeg | 音视频（次要）、MarkItDown 音频、HyperFrames 渲染 |
 
-Platform profiles as probed on 2026-10-17:
+有意**排除**：通用压缩包、构建工具链，以及一切不是"转换"的事。
 
-| | Windows desktop | Fedora (native) | Fedora (WSL) |
-| --- | --- | --- | --- |
-| Documents | Pandoc, LibreOffice, MarkItDown, Typst | LibreOffice | — |
-| PDF | Python (PyMuPDF, pdfplumber, pypdf) | poppler, Ghostscript | — |
-| Media | ImageMagick, FFmpeg | ImageMagick | — |
-| Python | 3.13 + PDF/document modules | `python3`, stdlib | `python3`, stdlib |
+## 维护
 
-Deliberately **out of scope**: general archives, build toolchains, and anything
-that is not a conversion.
-
-## Maintenance
-
-Re-probe after upgrading any tool, and update §1 of `SKILL.md` with the date:
+升级任何工具后重新探测，并把日期更新到 `SKILL.md` §1：
 
 ```bash
 for t in pandoc soffice markitdown typst magick convert ffmpeg pdftotext pdftoppm gs tesseract qpdf python3; do command -v "$t" >/dev/null && echo "OK   $t" || echo "MISS $t"; done
@@ -64,8 +46,8 @@ magick -list format | Select-String -Pattern 'HEIC|AVIF|WEBP|PSD|SVG|DNG|PDF'
 pandoc --list-output-formats
 ```
 
-## Related notes
+## 相关备注
 
-- On Windows the tools are installed portably under `D:\Tools\` and exposed via the **user** PATH; those are `.exe` files, so they are not callable by bare name from a WSL distro.
-- Windows has **no Ghostscript** and **no LaTeX**; the Windows routing depends on both absences. Fedora is the mirror image: it has Ghostscript and poppler but no Pandoc, MarkItDown, Typst or FFmpeg.
-- Reinstalling FFmpeg on Windows is what restores MarkItDown's audio transcription.
+- Windows 上工具以便携方式装在 `D:\Tools\`，通过**用户** PATH 暴露；它们是 `.exe`，所以在 WSL 发行版里不能按裸命令名调用。
+- Windows 上**没有 Ghostscript 也没有 LaTeX**，Windows 的路由依赖这两个缺席。Fedora 正好相反：有 Ghostscript 和 poppler，但没有 Pandoc、MarkItDown、Typst、FFmpeg。
+- 在 Windows 上重装 FFmpeg 是恢复 MarkItDown 音频转写的办法。
