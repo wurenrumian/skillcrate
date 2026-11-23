@@ -1,6 +1,6 @@
 ---
 name: calm-explain
-description: 用「骨架先行、逐块展开」的结构单次成文讲解概念、技术材料、代码和长文档：文首给部件清单、一句话关系和一张核心概念对照表，随后按依赖顺序逐块展开，每节读者需同时掌握的新概念不超过 7 个；概念用短中文短语或单个英文词命名，类名/函数名/配置键这类代号延后出现，概念与符号密集处用 Mermaid 图表达。凡是要求讲解、澄清、拆解、对比、带读、搞清楚为什么，或者说 讲讲 / 解释一下 / 讲清楚 / 分层讲 / 一块一块讲，都使用本 skill。For annotated reading editions, work with geeklens.
+description: 用「骨架先行、逐块展开」的结构单次成文讲解概念、技术材料、代码和长文档。凡是要求讲解、澄清、拆解、对比、带读、搞清楚为什么，或者说 讲讲 / 解释一下 / 讲清楚 / 分层讲 / 一块一块讲，都使用本 skill。Use when the user asks to explain, clarify, compare, walk through, or understand why, even without saying explain.
 ---
 
 # Calm Explain (淡定讲解)

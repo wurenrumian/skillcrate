@@ -1,6 +1,6 @@
 ---
 name: geeklens
-description: geekLens —— 给一段聚焦的真实源码（某个功能、某次改动、某条数据流/调用链）产出干净的阅读版注解：逐行注释、改前/改后对照、数据结构手册。只操作阅读副本，绝不改真实源码。产物默认合并成尽量少的文件（单文件优先、相似项合并），拆分需有明确理由。凡用户要求给代码加注解、逐行讲解、精读函数/调用链、解释字段或同步关系、整理阅读版，都使用本 skill；触发后必须采用 calm-explain 的讲解协议。Annotated reading editions of a focused slice of real code, without modifying the source; minimal file count by default.
+description: geekLens —— 给一段聚焦的真实源码（某个功能、某次改动、某条数据流/调用链）产出干净的阅读版注解：逐行注释、改前/改后对照、数据结构手册。只操作阅读副本，绝不改真实源码。凡用户要求给代码加注解、逐行讲解、精读函数/调用链、解释字段或同步关系、整理阅读版，都使用本 skill。Annotated reading editions of a focused slice of real code, without modifying the source.
 ---
 
 # geekLens（聚焦代码阅读版）
