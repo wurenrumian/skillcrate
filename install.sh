@@ -4,7 +4,7 @@
 #   ./install.sh geeklens     # 只装一个
 set -euo pipefail
 
-ALL=(calm-explain geeklens project-memory host-memory file-conversion-toolkit)
+ALL=(calm-explain geeklens informed-decision project-memory host-memory file-conversion-toolkit)
 TARGETS=("$@")
 [ ${#TARGETS[@]} -eq 0 ] && TARGETS=("${ALL[@]}")
 

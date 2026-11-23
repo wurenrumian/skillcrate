@@ -1,6 +1,6 @@
 # 仓库约定
 
-五个 skill 共享一个仓，但**安装时是各自独立的**：`npx skills add` 只复制被选中的那个目录。下面的规则都是为这一点服务的。
+这些 skill 共享一个仓，但**安装时是各自独立的**：`npx skills add` 只复制被选中的那个目录。下面的规则都是为这一点服务的。
 
 ## 1. 目录名 = skill 名
 
@@ -19,12 +19,13 @@
 
 ## 3. 接口改动要成对提交
 
-这三处是三方契约，动一边必须同一个 commit 里动另一边：
+下面这些是契约，动一边必须同一个 commit 里动另一边：
 
 | 契约 | 位置 |
 |---|---|
-| 讲解风格、证据三档标签、篇幅跟随难度 | `calm-explain/SKILL.md` ← `geeklens/SKILL.md` 只引用不复述 |
+| 讲解风格、证据三档标签、篇幅跟随难度 | `calm-explain/SKILL.md` ← `geeklens/SKILL.md`、`informed-decision/SKILL.md` 只引用不复述 |
 | 阅读版落在 `./tmp/annotated/`、`tags` front-matter、`STATE.md` 关键链接、`archive/annotated/` | `geeklens/SKILL.md` ↔ `project-memory/SKILL.md` + `references/` |
+| 决策记录落在 `./tmp/docs/memory/`、何时记何时不记 | `informed-decision/SKILL.md` ↔ `project-memory/SKILL.md` |
 | 主机级 vs 项目级记忆的边界 | `host-memory/SKILL.md` ↔ `project-memory/SKILL.md` |
 
 改 `project-memory` 的脚本或样本库后先跑：
@@ -41,4 +42,4 @@ python project-memory/tests/run_tests.py
 
 ## 5. 历史
 
-五个 skill 是用 `git subtree add` 并进来的，原仓的 commit（含 SHA 和日期）都在本仓历史里。上游旧仓已归档，**不要再 `git subtree pull`**；从现在起本仓是唯一来源。
+大部分 skill 是用 `git subtree add` 并进来的，原仓的 commit（含 SHA 和日期）都在本仓历史里；`informed-decision` 是并库后直接在本仓写的。上游旧仓已归档，**不要再 `git subtree pull`**；从现在起本仓是唯一来源。

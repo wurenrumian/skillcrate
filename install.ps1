@@ -3,7 +3,7 @@
 #   ./install.ps1 geeklens     # 只装一个
 $ErrorActionPreference = 'Stop'
 
-$all = @('calm-explain', 'geeklens', 'project-memory', 'host-memory', 'file-conversion-toolkit')
+$all = @('calm-explain', 'geeklens', 'informed-decision', 'project-memory', 'host-memory', 'file-conversion-toolkit')
 $targets = if ($args.Count -gt 0) { $args } else { $all }
 
 foreach ($s in $targets) {
