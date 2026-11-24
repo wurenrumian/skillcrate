@@ -19,7 +19,7 @@ not say "explain". Also for requests like 讲讲 / 解释一下 / 分层讲 / �
 `SKILL.md` fixes the shape of the answer:
 
 1. **Skeleton up front.** 3–7 named parts, one sentence on how they connect, a
-   table of the core concepts (short name + one-line gloss), then a transition
+   table of the core concepts (name + one-line gloss), then a transition
    that names the order the blocks will follow. No mechanism, no numbers, no
    identifiers.
 2. **One block per section.** Each section fills in a single block — what it
@@ -34,10 +34,13 @@ must hold at once. Blocks are cut by *the problem being solved*, not by files,
 chapters, classes or directories; a block that is too big becomes its own small
 skeleton, one layer per section.
 
-**Concept names vs identifiers.** Concepts get a short Chinese phrase or a
-single English word (关键路径, 可见性, fence, lease). Class names, function names
-and config keys stay out of the prose; they appear once, in a code block or a
-mapping table at the end, after the reader knows what to call the thing.
+**Concept names vs identifiers.** Concepts keep the name the reader, the repo or
+the field already uses — English stays English (`reclaim`, `fence`, `SQ/CQ`),
+Chinese stays Chinese. A coined name is the last resort; naming is confirmed
+once before writing starts. Class names,
+function names and config keys stay out of the prose; they appear once, in a
+code block or a mapping table at the end, after the reader knows what to call
+the thing.
 
 **Diagrams where it gets dense.** When the relations between concepts and
 symbols cannot be laid out in prose without strain — many connections,

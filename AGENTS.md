@@ -23,7 +23,7 @@
 
 | 契约 | 位置 |
 |---|---|
-| 讲解风格、证据三档标签、篇幅跟随难度 | `calm-explain/SKILL.md` ← `geeklens/SKILL.md`、`informed-decision/SKILL.md` 只引用不复述 |
+| 讲解风格、术语承接与命名确认、证据三档标签、篇幅跟随难度 | `calm-explain/SKILL.md` ← `geeklens/SKILL.md`、`informed-decision/SKILL.md` 只引用不复述 |
 | 阅读版落在 `./tmp/annotated/`、`tags` front-matter、`STATE.md` 关键链接、`archive/annotated/` | `geeklens/SKILL.md` ↔ `project-memory/SKILL.md` + `references/` |
 | 决策记录落在 `./tmp/docs/memory/`、何时记何时不记 | `informed-decision/SKILL.md` ↔ `project-memory/SKILL.md` |
 | 主机级 vs 项目级记忆的边界 | `host-memory/SKILL.md` ↔ `project-memory/SKILL.md` |
