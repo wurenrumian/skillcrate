@@ -1,6 +1,6 @@
 ---
 name: file-conversion-toolkit
-description: 在 Windows / Fedora 本机把文档和文件转换成目标格式，按本机已装工具选路：文档为主（Office、PDF、Markdown、HTML、EPUB、LaTeX），图片与音视频为次。凡是用户要 转格式 / 转换 / 转成 / 导出 / 批量转换，或说『转 pdf』『转 md』这类简写，或问某个转换该用哪个工具，都使用本 skill。不用于纯云端 / API 转换。Local file conversion on Windows or Fedora, routed to whichever tool is actually installed.
+description: 在 Windows / Fedora 本机按已安装工具转换文档和文件，覆盖 Office、PDF、Markdown、HTML、EPUB、LaTeX 及图片、音视频。用户要求转格式、转换、导出、批量转换，或询问本地转换工具时使用；不处理纯云端 / API 转换。Local file conversion routed through installed tools.
 ---
 
 # 文档与文件转换（File Conversion）

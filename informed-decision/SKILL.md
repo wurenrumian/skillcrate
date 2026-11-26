@@ -1,6 +1,6 @@
 ---
 name: informed-decision
-description: 帮助用户在缺少必要上下文时做出知情决定：查明事实，把客观变化翻译成后果与取舍，按影响驱动的 SCQA 出简报——基线、影响三问、核心取舍、带代价的选项与推荐。凡是用户说 拿不准 / 该选哪个 / 你定 / 这样有风险吗 / 我不懂这块 / 要不要动 X，或询问方案与风险；agent 走到难以撤回或影响长远的岔路口，或发现异常需要用户拍板时，也使用本 skill。能自行查清的先查再问。Use when a consequential choice needs the user's judgement and they lack the context to decide.
+description: 用户缺少做决定所需的上下文时，先查清事实，把技术变化翻译成影响与取舍，再给出 30 秒可拍板的简报：基线、痛/急/广、带代价的选项、推荐与把握度。适用于「拿不准」「该选哪个」「你定」「有风险吗」「要不要动 X」，以及 agent 遇到重要、难撤回或需用户拍板的岔路时。Use when the user needs more context to make a decision.
 ---
 
 # Informed Decision（知情决策）

@@ -1,6 +1,6 @@
 ---
 name: host-memory
-description: 主机级、跨项目的记忆，按目录 + 标签分片，默认在 ~/host-memory。当需要了解本机某目录或项目是什么、怎么操作、怎么维护，或要记与具体项目无关的观察 / 待办 / 结论、巡检本机、配置同步 / chezmoi / 备份、压实过长记忆时使用。Host-wide, directory- and tag-partitioned memory with progressive disclosure.
+description: 主机级、跨项目记忆，按目录和标签分片，默认存于 ~/host-memory。需要了解或维护本机目录/项目、记录跨项目观察/待办/结论、巡检本机、同步配置、管理 chezmoi/备份或压实旧记忆时使用。Host-wide, directory- and tag-partitioned memory with progressive disclosure.
 ---
 
 # Host Memory

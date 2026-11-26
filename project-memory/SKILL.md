@@ -1,6 +1,6 @@
 ---
 name: project-memory
-description: 在项目根的 ./tmp/ 下维护项目记忆、实验记录与当前状态（过程进 ./tmp/，结论进 ./docs/）。当用户要记录这个项目里的事——记录一下、记个结论、维护项目状态 / 当前进度 / 下一步、写研究记录或实验记录、整理探索笔记、整理 / 清理 tmp、按 tag 找文档、检查文档断链与孤儿、这些先别放进 docs，或提到 project memory、journal、experiment run、文档索引、多 agent 协作时使用。Maintain project memory, research notes, experiment records and current state under ./tmp/.
+description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状态（过程进 ./tmp/，结论进 ./docs/）。工作目录存在 ./tmp/ 时自动加载；用户要求记录、整理或查找项目记忆、研究 / 实验、进度、文档索引，或提到 journal、多 agent 协作时也使用。Maintain project memory, research notes, experiments and current state under ./tmp/.
 ---
 
 # Project Memory
