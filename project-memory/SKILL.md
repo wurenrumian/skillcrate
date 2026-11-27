@@ -5,7 +5,7 @@ description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状�
 
 # Project Memory
 
-在项目根的 `./tmp/` 下维护一份**过程性记忆**：项目记忆、研究讲解、脚本、实验记录、实验结果、当前状态与后续方向。
+在项目根的 `./tmp/` 下维护一份**过程性记忆**：项目记忆、研究讲解、脚本、实验记录、实验结果、当前状态与后续方向；另把已经确认、需要反复遵守的硬性约束提炼成 `./tmp/RULES.md`，作为 agent 的行动清单。
 
 它**不是**项目文档，也**不是**随时可清的临时目录：`./docs/` 是给项目读者的结论，`./tmp/` 是产生这些结论的过程——失败的、没定论的、以及“当初为什么放弃”的记录都在这里。
 
@@ -15,11 +15,12 @@ description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状�
 2. **实验定义与运行产物分开。** 定义在 `experiments/`（小、稳定、人读），产物在 `outputs/`（多、只增、程序写）。
 3. **捕获便宜，沉淀才排版。** 日常只追加 `journal/` 一行；值得长期查阅才升级到 `docs/`（门槛见下）。
 4. **产物不覆盖。** 每次运行写独立目录，`outputs/` 内部结构由程序决定。
-5. **两个入口。** 看现状读 `./tmp/STATE.md`，找文档看 `./tmp/docs/index.md`；不必通读整个 `./tmp/`。
+5. **三个入口，各管一件事。** 看现状读 `./tmp/STATE.md`，行动前读 `./tmp/RULES.md`（存在才读），找文档看 `./tmp/docs/index.md`；不必通读整个 `./tmp/`。
 6. **移动是常态，删除是例外。** 退役内容进 `archive/`，`scratch/` 随时可删；不做批量删除，真删只限范围具体、依据清楚的可重建产物（如 `outputs/` 单个过期实验，在实验 `README.md`「运行记录」留一行）。
-7. **初始化是惰性的。** 只读不建；第一次写入才落 `.gitignore`、`README.md`、`STATE.md`，其余目录用到再建。
+7. **初始化是惰性的。** 只读不建；第一次写入才落 `.gitignore`、`README.md`、`STATE.md`，其余目录用到再建；第一条规则出现时才建 `RULES.md`。
 8. **多 agent 只动自己的地盘。** 并行才开 `agents/`：`BOARD.md` 认领即锁，进展写自己的子目录，收尾才写回全局。
-9. **远程是原料。** 增量只进 `remote/`，再反向更新 `STATE.md` / `docs/` / 实验；`cursor.json` 与 `docs/index.md` 是仅有的两处覆盖写。
+9. **远程是原料。** 增量只进 `remote/`，再反向更新 `STATE.md` / `docs/` / 实验；`cursor.json` 与 `docs/index.md` 是仅有的两处**指针 / 派生索引**覆盖写。
+10. **规则与理由分离。** 可执行指令只写 `RULES.md`，理由与依据留在 `docs/memory/`；是否立规、归为哪一档先问用户，从 memory 提取是移动而不是复制。
 
 ## 目录结构
 
@@ -29,6 +30,7 @@ description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状�
 ./tmp/
 ├── README.md            # 这目录是什么、约定与入口指引（人读一次）
 ├── STATE.md             # 【必读】现在 / 进行中 / 下一步 / 待决 / 关键链接
+├── RULES.md             # 【行动前读】本机硬性规则；正文唯一处，依据链回 docs/memory/
 ├── .memory-cache.json   # 检查工具的增量缓存（可删，不参与检查）
 ├── journal/
 │   └── 2026-09-27.md    # 追加式时间线，一天一个文件
@@ -71,6 +73,7 @@ description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状�
 | 生命周期 | 什么时候 | 写到哪 | 装什么 |
 |---|---|---|---|
 | 入口 | 会话收尾 | `STATE.md` | 现在 / 进行中 / 下一步 / 待决 / 关键链接；覆盖更新，<150 行 |
+| 少而稳定 | 规则确认 / 从 memory 提取 | `RULES.md` | ID / 强度 / 指令 / 依据；正文只在这里，冲突先问用户 |
 | 入口 | 首次写入 | `README.md` | 声明这是记忆、列目录与约定 |
 | 只增 | 任意观察 / 想法 / 进展 | `journal/YYYY-MM-DD.md` | 一行一条，不排版 |
 | 只增 | 同步远程增量 | `remote/YYYY-MM-DD.md` | 范围、合入与关闭的 PR、“对我方的影响” |
@@ -94,15 +97,31 @@ description: 在项目根 ./tmp/ 维护项目记忆、实验记录与当前状�
 - **`docs/` 文档 = H1 + 正文 + `tags` + 引用链接**；没有 status / title / date 字段，位置即状态。
 - **`docs/` 与 `annotated/`**：前者是随时查的参考（演示、成品、讲稿也放这），后者围着代码讲实现。
 
+## 项目规则（`RULES.md`）
+
+`RULES.md` 是手写的**本机行动清单**，不从 memory 自动生成；第一条规则出现时才创建。
+
+**发现规则候选时先问用户**：是只作为决策 / 约定留在 `docs/memory/`，还是提炼成硬性规则？强度也由用户确认，agent 不自行归类。确认后才写：
+
+```markdown
+- **R-01** [禁止] 直接改动 outputs/ 里的历史产物；重跑写新目录。依据：[产物不可变](./tmp/docs/memory/outputs-immutable.md)
+```
+
+- 强度只有 `禁止 / 必须 / 默认`；`R-xx` 递增、永不复用，退役时划掉并标日期。
+- 每条必须有依据；没有依据的先留 `journal/`。不重复仓根 `AGENTS.md` 已有的规则。
+- 从 memory 提取是**移动，不是复制**：祈使句进 `RULES.md`，理由留原文档；搬空的文档移进 `archive/`。
+- 规则冲突时问用户，不擅自改约束。团队规则也先问用户，再毕业进 `AGENTS.md`，不要两边同时保留生效正文。
+
 ## 冷启动协议
 
 需要了解项目当前状态、或继续之前的工作时：
 
 1. 读 `./tmp/STATE.md`。不存在说明还没有记忆，按空状态继续——**只读不初始化**。
-2. 读最新一个 `./tmp/journal/*.md` 的尾部。
-3. 看 `./tmp/remote/cursor.json`（存在才看）：与 `git log -1 --format=%h origin/main` 对不上、或 `synced_at` 已过一周，就**提示**用户同步——只提示，不自动 `fetch` / `gh`。
-4. 按「关键链接」按需读文档；找实验状态读 `./tmp/experiments/INDEX.md`，找文档读 `./tmp/docs/index.md`，不扫目录。存在 `agents/` 时看一眼 `BOARD.md`。
-5. 只在必要时深入 `outputs/`；怀疑文档过期时跑 `check-memory.py` 看孤儿与断链，不凭印象判断。
+2. 读 `./tmp/RULES.md`（存在才读）：这是本机行动约束，缺了不代表没有团队规则，仓根 `AGENTS.md` 仍要遵守。
+3. 读最新一个 `./tmp/journal/*.md` 的尾部。
+4. 看 `./tmp/remote/cursor.json`（存在才看）：与 `git log -1 --format=%h origin/main` 对不上、或 `synced_at` 已过一周，就**提示**用户同步——只提示，不自动 `fetch` / `gh`。
+5. 按「关键链接」按需读文档；找实验状态读 `./tmp/experiments/INDEX.md`，找文档读 `./tmp/docs/index.md`，不扫目录。存在 `agents/` 时看一眼 `BOARD.md`。
+6. 只在必要时深入 `outputs/`；怀疑文档过期时跑 `check-memory.py` 看孤儿与断链，不凭印象判断。
 
 ## 远程增量同步
 
@@ -188,6 +207,8 @@ python "$SKILL/assets/index-experiments.py"          # 生成 experiments/INDEX.
 | 收尾 | 更新 `STATE.md` 的「现在 / 进行中 / 下一步」，删掉过期的「关键链接」；索引化当天 `journal/` 结论；实验完成 → 补「结论」；遗留阻塞写进「待决」；顺手看整理阈值 |
 | 开新实验 | 取下一个 `EXP-XXXX`（规则见「格式约定」）；建 `experiments/EXP-XXXX-slug/{README.md,config.yaml,scripts/}`（**不建产物目录**）；`README.md` 先填到「方法」；`STATE.md` 与当天 journal 各记一行（多 agent 时中途只记 BOARD 与自己那份） |
 | 沉淀成文档 | 判类型 → `docs/{memory,research,plans}/`；按对应结构写；`STATE.md`「关键链接」挂上；相关实验「结论」同步；跑 `index-memory.py` |
+| 立规 / 从 memory 提取 | 先问用户是否立规、归为哪一档；确认后祈使句移入 `RULES.md`，理由留原文档；新 ID 取最大号 +1 |
+| 毕业规则到 `AGENTS.md` | 先问用户 → 搬进仓根 `AGENTS.md` → `RULES.md` 原条目标为已退役并注明去向；不要两边同时保留生效正文 |
 | 毕业到项目 `./docs/` | 见 `references/migration.md`：先问用户 → 按项目格式**重写** → `STATE.md` 记一行 → 原件保留或移 `archive/docs/` |
 | 检验 / 生成索引 | `check-memory.py` 检查（`--json` 可机读，`--limit` 控制列表长度）；`find-memory.py` 查 tag / 无 tag / 孤儿；`index-memory.py`、`index-experiments.py` 生成索引；语义见「索引与检验」 |
 | 整理 | 见「整理与滚动归档」；只提示不自动 |
@@ -266,7 +287,7 @@ tags: [storage, cache-eviction]
 4. 复制 `assets/tmp-readme.md` 成 `./tmp/README.md`。
 5. `./tmp/STATE.md` 落一个最小骨架（见下）。
 6. **不复制工具**：检查 / 索引脚本直接从本 skill 的 `assets/` 运行（命令见「索引与检验」），`./tmp/` 里不留脚本副本。项目里若已有旧版的 `tmp/scripts/`，提示用户可以删掉。
-7. **只创建这次要写的路径**（加上面的入口文件）；其余目录用到再建。
+7. **只创建这次要写的路径**（加上面的入口文件）；其余目录用到再建。`RULES.md` 不预先创建，第一条规则出现时才写。
 
 第 3、4 步是**不可逆保护**：少了 `.gitignore`，过程记忆会被提交进版本库、以后 `git clean -fdx` 会连它一起清掉；少了 `README.md`，以后没人知道这个目录不是垃圾。
 

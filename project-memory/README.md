@@ -1,6 +1,6 @@
 # project-memory
 
-在项目根的 `./tmp/` 下维护一份**过程性记忆**：项目记忆、研究讲解、脚本、实验记录、实验结果、当前状态与后续方向。
+在项目根的 `./tmp/` 下维护一份**过程性记忆**：项目记忆、研究讲解、脚本、实验记录、实验结果、当前状态与后续方向；已确认的硬性约束另提炼为 `./tmp/RULES.md`，作为 agent 的行动清单。
 
 它**不是**项目文档。`./docs/` 是给项目读者的结论，`./tmp/` 是产生这些结论的过程。
 
@@ -8,7 +8,7 @@
 
 - 用户说"记录一下 / 记一下这个结论 / 维护项目状态 / 当前进度 / 下一步 / 研究记录 / 实验记录 / 开个实验 / 记录实验结果 / 整理探索笔记 / 这些先别放进 docs"
 - 用户说"整理一下 tmp / 清理一下文档 / 按 tag 找文档 / 检查断链"
-- 提到 project memory、journal、experiment run、文档索引、多 agent 协作
+- 提到 project memory、journal、experiment run、文档索引、项目规则、多 agent 协作
 - 用户 pull / fetch 之后要"同步一下远程 / 看看远程有什么变化"
 
 ## 核心规则
@@ -17,11 +17,12 @@
 2. **实验定义与运行产物分开。** 定义在 `experiments/`（小、稳定、人读），产物在 `outputs/`（多、只增、程序写）。
 3. **捕获便宜，沉淀才排版。** 日常只往 `journal/` 追加一行；值得长期查阅的知识才写 `docs/`（不要求完全定论）。
 4. **产物不覆盖**，也别写进 `experiments/`。
-5. **两个入口，各有分工。** 了解现状先读 `./tmp/STATE.md`；查找具体文档先看 `./tmp/docs/index.md`；都不必通读整个 `./tmp/`。
+5. **三个入口，各有分工。** 了解现状读 `./tmp/STATE.md`；行动前读 `./tmp/RULES.md`（存在才读）；查找具体文档看 `./tmp/docs/index.md`。
 6. **删除是最后手段，移动是常态。** 完成 / 废弃的东西默认移进 `archive/`；`scratch/` 可随时删；只有范围具体、依据清楚的程序产物或明确无保留价值的文件才真删。
-7. **初始化是惰性的。** 只读不建；第一次**写入**时才落最小集合（`.gitignore` 规则、`README.md`、`STATE.md`）。检查工具不复制进项目，直接跑 skill 的 `assets/`。
+7. **初始化是惰性的。** 只读不建；第一次**写入**时才落最小集合（`.gitignore` 规则、`README.md`、`STATE.md`）；`RULES.md` 等第一条规则出现时才建。检查工具不复制进项目，直接跑 skill 的 `assets/`。
 8. **多 agent 只动自己的地盘**，任务在 `agents/BOARD.md` 认领（认领即锁）。
-9. **远程信息只是原料**：远程的提交 / PR 增量进 `remote/`，再反过来更新本地记忆；`remote/cursor.json` 与生成的 `docs/index.md` 是仅有的两处覆盖写。
+9. **远程信息只是原料**：远程的提交 / PR 增量进 `remote/`，再反过来更新本地记忆；`remote/cursor.json` 与生成的 `docs/index.md` 是仅有的两处**指针 / 派生索引**覆盖写。
+10. **规则与理由分离**：可执行指令只写 `RULES.md`，理由与依据留在 `docs/memory/`；从 memory 提取规则是移动，不是复制。
 
 ## 目录结构
 
@@ -31,6 +32,7 @@
 ./tmp/
 ├── README.md            # 这目录是什么、"顶层不可随意删"的约定、入口指引
 ├── STATE.md             # 【必读】现在 / 进行中 / 下一步 / 待决 / 关键链接
+├── RULES.md             # 【行动前读】本机硬性规则；正文唯一处，依据链回 docs/memory/
 ├── .memory-cache.json   # 检查工具的增量缓存（可删）
 ├── journal/             # 追加式时间线，一天一个文件
 ├── remote/              # 远程仓库增量：cursor.json 水位 + 每次同步的摘要
@@ -50,14 +52,16 @@
 ## 冷启动协议
 
 1. 读 `./tmp/STATE.md`。不存在说明还没有任何记忆，按空状态继续——**只读不初始化**。
-2. 读最新一个 `./tmp/journal/*.md` 的尾部。
-3. 看 `./tmp/remote/cursor.json`（存在才看）：与 `origin/main` 对不上或已过一周，提示用户"要不要同步一次远程"——只提示，不自动联网。
-4. 按 `STATE.md` 的「关键链接」按需读对应 `docs/` 文档或 `experiments/*/README.md`；找实验状态读 `./tmp/experiments/INDEX.md`，找文档读 `./tmp/docs/index.md`，不扫目录。存在 `./tmp/agents/` 时看一眼 `BOARD.md` 的认领情况。
-5. 只在必要时才深入 `outputs/`；怀疑文档过期时跑 `check-memory.py` 看孤儿与断链。
+2. 读 `./tmp/RULES.md`（存在才读）；仓根 `AGENTS.md` 仍要遵守。
+3. 读最新一个 `./tmp/journal/*.md` 的尾部。
+4. 看 `./tmp/remote/cursor.json`（存在才看）：与 `origin/main` 对不上或已过一周，提示用户"要不要同步一次远程"——只提示，不自动联网。
+5. 按 `STATE.md` 的「关键链接」按需读对应 `docs/` 文档或 `experiments/*/README.md`；找实验状态读 `./tmp/experiments/INDEX.md`，找文档读 `./tmp/docs/index.md`，不扫目录。存在 `./tmp/agents/` 时看一眼 `BOARD.md` 的认领情况。
+6. 只在必要时才深入 `outputs/`；怀疑文档过期时跑 `check-memory.py` 看孤儿与断链。
 
 ## 其他要点
 
 - **文档约定**：`docs/` 文档只有 H1 + 正文 + `tags` + 引用链接；front-matter 只保留 `tags`（第一个是主 tag）；引用用 Markdown 链接、路径 `./tmp/` 开头（如 `[x](./tmp/docs/research/x.md)`；文件相对写法也认），Obsidian 的 wiki 形式也兼容（`[[./tmp/docs/research/x]]`、`[[docs/research/x]]`、唯一时的 `[[x]]`）；`docs/` 内文件名不重复，实验等按路径引用的文件可以重名。
+- **项目规则**：`RULES.md` 手写维护，格式为 `R-xx + 禁止/必须/默认 + 指令 + 依据`。是否立规、归为哪一档先问用户；理由留 `docs/memory/`，提取是移动而不是复制。团队规则毕业进仓根 `AGENTS.md`。
 - **索引**：`docs/index.md`（知识）与 `experiments/INDEX.md`（实验状态）是生成物，不手改；`archive/INDEX.md`（退役原因）只追加。索引里的“正在关注”按 mtime 推算，是启发式指标。
 - **检查**：脚本在 skill 的 `assets/` 里直接跑、**不复制进项目**（`python "$SKILL/assets/check-memory.py"`，项目根下不用传 `--root`）。`check-memory.py` 一次跑完断链 / 歧义 / 重名 / 孤儿 / 无 tag / tag 规范 / 整理阈值（`--limit 0` 不截断）；`find-memory.py` 查 tag / 无 tag / 孤儿；`index-memory.py`、`index-experiments.py` 生成两个索引。解析结果缓存在 `.memory-cache.json`（按 mtime + size + 活目录归属命中，`--no-cache` 可绕过）。孤儿只是复核线索，不是删除结论。
 - **链接判定**：带 `#锚点` 的 Markdown 链接、指向目录的链接、`./tmp/` 开头（从项目根看）与文件相对两种写法、Windows / macOS 上大小写不一致的 wiki 链接都算有效；wiki 目标的 `./`、`tmp/` 前缀会先剥掉再按 tmp 根解析（`[[./tmp/docs/x]]` 与 `[[docs/x]]` 等价）；`journal/`、`remote/`、`archive/`、`scratch/` 里的链接不计入入链，也不报断链。
@@ -75,6 +79,7 @@
 | 改什么 | 同步到 |
 |---|---|
 | 目录结构 | `SKILL.md` 目录树 ↔ `assets/tmp-readme.md` 目录表 |
+| 项目规则（正文唯一处 / 依据 / 毕业） | `SKILL.md` ↔ `README.md` ↔ `assets/tmp-readme.md` |
 | 文档约定（tag / 链接 / 索引 / 检查 / 整理） | `SKILL.md` ↔ `README.md` ↔ `assets/tmp-readme.md` |
 | 迁移 / 毕业流程 | `references/migration.md` ↔ `SKILL.md` 常用操作 |
 | 脚本行为 | `assets/` 工具集 ↔ `tests/tmp/` 样本 ↔ `tests/run_tests.py` |

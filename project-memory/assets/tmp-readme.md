@@ -11,18 +11,20 @@
 ## 先看哪里
 
 1. `STATE.md` — 当前状态与下一步
-2. `docs/index.md` — 全量索引 + 近期活跃的 tag（生成文件，不手改）；找具体文档从这里进
-3. `experiments/INDEX.md` — 实验状态 / 问题 / 结论（生成文件）；找实验从这里进
-4. `archive/INDEX.md` — 退役内容与原因（追加式）
-5. `journal/` — 最近的原始记录
-6. `remote/` — 上次同步拉到的远程变化（同步过才有）
-7. 其余按需：`experiments/*/README.md`、`docs/`、多 agent 时的 `agents/BOARD.md`
+2. `RULES.md` — 本机 agent 的行动约束（存在才读；团队规则仍看仓根 `AGENTS.md`）
+3. `docs/index.md` — 全量索引 + 近期活跃的 tag（生成文件，不手改）；找具体文档从这里进
+4. `experiments/INDEX.md` — 实验状态 / 问题 / 结论（生成文件）；找实验从这里进
+5. `archive/INDEX.md` — 退役内容与原因（追加式）
+6. `journal/` — 最近的原始记录
+7. `remote/` — 上次同步拉到的远程变化（同步过才有）
+8. 其余按需：`experiments/*/README.md`、`docs/`、多 agent 时的 `agents/BOARD.md`
 
 ## 目录
 
 | 目录 | 用途 | 可删？ |
 |---|---|---|
 | `STATE.md` | 现状 / 进行中 / 下一步 / 待决 / 关键链接 | 否 |
+| `RULES.md` | 本机硬性规则：ID / 强度 / 指令 / 依据；正文唯一处 | 否 |
 | `.memory-cache.json` | 检查工具的增量缓存（可随时删） | **可以** |
 | `docs/index.md` | 全量索引 + 正在关注（工具生成，会覆盖） | 否 |
 | `docs/{memory,research,plans}/` | 沉淀后的稳定内容 | 否 |
@@ -47,6 +49,15 @@
 - `docs/` 内文档文件名不得重复；实验等按目录路径引用的文件可以重名。裸 basename 链接命中多个文件时，检查工具会报歧义。
 - `docs/index.md`、`experiments/INDEX.md` 是生成物，不手改；`archive/INDEX.md` 只追加。
 - `.memory-cache.json` 是增量缓存，可随时删；`--no-cache` 强制全量解析。
+
+## 项目规则
+
+- `RULES.md` 是**手写**的本机行动清单；第一条规则出现时才创建。
+- 一行一条：`- **R-01** [禁止|必须|默认] 指令。依据：[说明](./tmp/docs/memory/x.md)`。
+- 是否立规、归为哪一档先问用户；ID 递增、永不复用，退役时划掉并标日期。
+- 祈使句搬进 `RULES.md`，理由留在 `docs/memory/`；这是移动，不是复制。搬空的文档移进 `archive/`。
+- 每条必须有依据；没有依据的先记 `journal/`。规则冲突时问用户。
+- 团队规则先问用户，再毕业进仓根 `AGENTS.md`；不要两边同时保留生效正文。
 
 ## 检查与索引
 
@@ -80,7 +91,7 @@ python "<skill>/assets/index-experiments.py"          # 重新生成 experiments
 
 - 结果不可变：每次运行独立目录，不覆盖历史。
 - 只追加 journal，不回头整理；值得长期查阅的知识才写 `docs/`（不要求完全定论）。
-- `remote/cursor.json` 与生成的 `docs/index.md` 是仅有的两处覆盖写：前者是同步水位，后者是派生索引。远程带来的变化只当作原料，结论仍写回本地 `STATE.md` / `docs/`。
+- `remote/cursor.json` 与生成的 `docs/index.md` 是仅有的两处**指针 / 派生索引**覆盖写：前者是同步水位，后者是派生索引。远程带来的变化只当作原料，结论仍写回本地 `STATE.md` / `docs/`。
 - 多 agent 并行时启用 `agents/`：任务上 `BOARD.md` 认领，进展写各自 `agents/<agent-id>/`，全局 `STATE.md` 只在收尾时更新。
 - 整理是**提示制**：任一可读目录 ≥16 条、`journal/` 活跃月份 >2 时提示（`check-memory.py` 的「整理」小节会直接给数）；旧整月滚到 `archive/`，退役文档移 `archive/docs/`——移动，不删。
 - 每次归档在 `archive/INDEX.md` 追加一行：日期 / 原路径 / 去向 / 原因或取代者。
